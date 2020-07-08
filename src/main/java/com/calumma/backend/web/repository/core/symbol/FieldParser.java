@@ -86,6 +86,7 @@ public class FieldParser {
         From query = root;
         Set<Join> joinSet = root.getJoins();
         String[] joinTables = getJoinTables(fieldPath);
+        String columnName = getColumnName(fieldPath);
 
         boolean canAlreadyBeJoined = true;
         Class layerEntity = rootEntity;
@@ -93,16 +94,18 @@ public class FieldParser {
             for (String join : joinTables) {
                 Class potentialJoin = getFieldType(layerEntity, join);
                 if (canAlreadyBeJoined) {
-                    From potentialQuery = getJoinedFromIfExists(joinSet, potentialJoin);
+                    From potentialQuery = getJoinedFromIfExists(joinSet, potentialJoin, join);
                     if (potentialQuery == null)
                         canAlreadyBeJoined = false;
                     else {
                         query = potentialQuery;
                         layerEntity = potentialJoin;
+                        joinSet = query.getJoins();
                     }
                 }
                 if (!canAlreadyBeJoined) {
                     query = query.join(join, JoinType.LEFT);
+                    query.alias(join);
                     layerEntity = potentialJoin;
                 }
             }
@@ -133,11 +136,11 @@ public class FieldParser {
         return potentialJoinClass;
     }
 
-    private static From getJoinedFromIfExists(Set<Join> joinSet, Class potentialJoin) {
+    private static From getJoinedFromIfExists(Set<Join> joinSet, Class potentialJoin, String columnName) {
         From query = null;
 
         for (Join joinedTable : joinSet) {
-            if (joinedTable.getJavaType().equals(potentialJoin)) {
+            if (joinedTable.getJavaType().equals(potentialJoin) && joinedTable.getAlias().equals(columnName)) {
                 query = joinedTable;
             }
         }
