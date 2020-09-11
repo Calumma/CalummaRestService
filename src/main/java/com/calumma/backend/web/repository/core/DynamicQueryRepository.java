@@ -42,6 +42,7 @@ public class DynamicQueryRepository<Entity extends CalummaEntity> {
         CriteriaQuery query = criteriaBuilder.createQuery();
         Root<?> root = query.from(entityClass);
         Page response = null;
+
         CoreEntityGrouper coreEntityGrouper = new CoreEntityGrouper(root, entityClass);
         CoreEntityHaving coreEntityHaving = new CoreEntityHaving(root, entityClass, criteriaBuilder);
         CoreEntityProjectionBuilder projectionBuilder = new CoreEntityProjectionBuilder(root, entityClass, criteriaBuilder);
@@ -51,7 +52,6 @@ public class DynamicQueryRepository<Entity extends CalummaEntity> {
         query.orderBy(QueryUtils.toOrders(parsedRequest.getPageable().getSort(), root, criteriaBuilder));
         query = coreEntityGrouper.getGroupByClause(parsedRequest.getGroupBy(), query);
         query = coreEntityHaving.getHavingClause(parsedRequest.getAggregationFilters(), query);
-
 
         List<Object> result = entityManager.createQuery(query)
                                            .setMaxResults(parsedRequest.getPageable().getPageSize())

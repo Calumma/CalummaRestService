@@ -54,8 +54,9 @@ public class CoreEntitySpecification<Entity extends CalummaEntity> implements Sp
 
                         return criteriaBuilder.between(query.get(columnName), startOfDay, endOfDay);
                     }
-                    return criteriaBuilder.like(query.get(columnName), String.format("%%%s%%",
-                            (String) searchCriteria.getValue()));
+                    return criteriaBuilder.like(
+                            criteriaBuilder.lower(query.get(columnName)),
+                            String.format("%%%s%%", searchCriteria.getValue()).toLowerCase());
                 case IN:
                     return query.get(columnName).in(searchCriteria.getValue());
                 default:
