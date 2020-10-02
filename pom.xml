@@ -28,7 +28,7 @@
         <connection>scm:git:git://github.com/Calumma/CalummaRestService.git</connection>
         <developerConnection>scm:git:git@github.com:Calumma/CalummaRestService.git</developerConnection>
         <url>https://github.com/Calumma/CalummaRestService</url>
-      <tag>CalummaBackend-0.1</tag>
+      <tag>CalummaBackend-0.2.4</tag>
   </scm>
 
     <parent>
