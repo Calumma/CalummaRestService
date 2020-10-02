@@ -8,8 +8,6 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class CalummaEntity {
 
-    @Id
-    protected Long id;
     protected String externalId;
 
     protected Calendar insertDate;
@@ -24,13 +22,9 @@ public abstract class CalummaEntity {
         }
     }
 
-    public Long getId() {
-        return id;
-    }
+    public abstract Long getId();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public abstract void setId(Long id);
 
     public Calendar getInsertDate() {
         return insertDate;
