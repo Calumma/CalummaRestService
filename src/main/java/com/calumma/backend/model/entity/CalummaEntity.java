@@ -8,15 +8,13 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class CalummaEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String externalId;
+    protected Long id;
+    protected String externalId;
 
-    private Calendar insertDate;
-    private Calendar deletionDate;
+    protected Calendar insertDate;
+    protected Calendar deletionDate;
 
-    private boolean isDeleted;
+    protected boolean isDeleted;
 
     @PrePersist
     public void prePersist() {
