@@ -4,7 +4,7 @@
 
     <groupId>ml.calumma.web</groupId>
     <artifactId>CalummaBackend</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Calumma Rest Service</name>
