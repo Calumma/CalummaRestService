@@ -8,6 +8,7 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class CalummaEntity {
 
+    @Id
     protected Long id;
     protected String externalId;
 
