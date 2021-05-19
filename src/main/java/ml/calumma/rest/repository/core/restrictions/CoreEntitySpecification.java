@@ -7,6 +7,7 @@ import ml.calumma.rest.repository.core.symbol.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.Calendar;
 
@@ -29,21 +30,22 @@ public class CoreEntitySpecification<Entity extends CalummaEntity> implements Sp
             String columnName = field.getFieldName();
             From query = FieldParser.joinOrGetJoinedExpression(root, rootEntity,  searchCriteria.getKey().getNameField());
             String typeOfColumn = field.getFieldTypeName();
+            Type type = field.getFieldType();
 
             switch (searchCriteria.getOperation()) {
                 case EQUALITY:
-                    return criteriaBuilder.equal(query.get(columnName), searchCriteria.getParsedValue(typeOfColumn));
+                    return criteriaBuilder.equal(query.get(columnName), searchCriteria.getParsedValue(type));
                 case NEGATION:
-                    return criteriaBuilder.notEqual(query.get(columnName), searchCriteria.getParsedValue(typeOfColumn));
+                    return criteriaBuilder.notEqual(query.get(columnName), searchCriteria.getParsedValue(type));
                 case GREATER_THAN:
                     return criteriaBuilder.greaterThan(query.get(columnName),
-                            searchCriteria.getParsedValue(typeOfColumn));
+                            searchCriteria.getParsedValue(type));
                 case LESS_THAN:
-                    return criteriaBuilder.lessThan(query.get(columnName), searchCriteria.getParsedValue(typeOfColumn));
+                    return criteriaBuilder.lessThan(query.get(columnName), searchCriteria.getParsedValue(type));
                 case LIKE:
-                    Comparable likeField = searchCriteria.getParsedValue(typeOfColumn);
+                    Comparable likeField = searchCriteria.getParsedValue(type);
                     if(likeField instanceof Calendar){
-                        Calendar startOfDay = (Calendar) searchCriteria.getParsedValue(typeOfColumn);
+                        Calendar startOfDay = (Calendar) searchCriteria.getParsedValue(type);
 
                         Calendar endOfDay = Calendar.getInstance();
                         endOfDay.setTime(startOfDay.getTime());

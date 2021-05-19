@@ -30,19 +30,19 @@ public class CoreEntityHaving<Entity extends CalummaEntity> {
             switch (searchCriteria.getOperation()) {
                 case EQUALITY:
                     groupExpressions.add(criteriaBuilder.equal(getAggregateExpression(searchCriteria.getKey()),
-                                                 searchCriteria.getParsedValue(field.getFieldTypeName())));
+                                                 searchCriteria.getParsedValue(field.getFieldType())));
                     continue;
                 case NEGATION:
                     groupExpressions.add(criteriaBuilder.notEqual(getAggregateExpression(searchCriteria.getKey()),
-                                                    searchCriteria.getParsedValue(field.getFieldTypeName())));
+                                                    searchCriteria.getParsedValue(field.getFieldType())));
                     continue;
                 case GREATER_THAN:
                     groupExpressions.add(criteriaBuilder.greaterThan(getAggregateExpression(searchCriteria.getKey()),
-                                                       searchCriteria.getParsedValue(field.getFieldTypeName())));
+                                                       searchCriteria.getParsedValue(field.getFieldType())));
                     continue;
                 case LESS_THAN:
                     groupExpressions.add(criteriaBuilder.lessThan(getAggregateExpression(searchCriteria.getKey()),
-                                                    searchCriteria.getParsedValue(field.getFieldTypeName())));
+                                                    searchCriteria.getParsedValue(field.getFieldType())));
                     continue;
                 default:
                     throw new RuntimeException("Comparator not allowed");

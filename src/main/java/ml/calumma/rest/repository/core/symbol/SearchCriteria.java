@@ -2,6 +2,7 @@ package ml.calumma.rest.repository.core.symbol;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,9 +58,15 @@ public class SearchCriteria <T extends Comparable<T>> {
         return value;
     }
 
-    public Comparable getParsedValue(String typeOfColumn) throws ParseException {
+    public Comparable getParsedValue(Type type) throws ParseException {
         DateFormat formatFullDate = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         DateFormat formatWithoutHour = new SimpleDateFormat("yyyy-MM-dd");
+
+        String typeOfColumn = type.getTypeName();
+
+        if(((Class) type).isEnum()){
+            typeOfColumn = "enum";
+        }
 
         switch (typeOfColumn){
             case "long":
@@ -83,6 +90,8 @@ public class SearchCriteria <T extends Comparable<T>> {
                     calendar.setTime( formatWithoutHour.parse((String) value));
                     return calendar;
                 }
+            case "enum":
+                return Enum.valueOf((Class) type, (String) value);
             default:
                 return value;
         }
