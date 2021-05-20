@@ -60,7 +60,7 @@ public class CoreEntitySpecification<Entity extends CalummaEntity> implements Sp
                             criteriaBuilder.lower(query.get(columnName)),
                             String.format("%%%s%%", searchCriteria.getValue()).toLowerCase());
                 case IN:
-                    return query.get(columnName).in(searchCriteria.getValue());
+                    return query.get(columnName).in(searchCriteria.getValue().toString().split(","));
                 default:
                     throw new RuntimeException("Comparator not allowed");
             }
